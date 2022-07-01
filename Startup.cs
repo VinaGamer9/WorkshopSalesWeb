@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -59,6 +61,16 @@ namespace SalesWebMvc
             SeedingService seedingService
         )
         {
+            var enUS = new CultureInfo("en-US");
+            var localizationOptions =
+                new RequestLocalizationOptions {
+                    DefaultRequestCulture = new RequestCulture(enUS),
+                    SupportedCultures = new List<CultureInfo> { enUS },
+                    SupportedUICultures = new List<CultureInfo> { enUS }
+                };
+
+            app.UseRequestLocalization (localizationOptions);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
